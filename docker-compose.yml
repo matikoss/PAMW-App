@@ -12,6 +12,7 @@ services:
       - "3000:3000"
     volumes:
       - ./pamw-app-server:/usr/src/app-server
+      - /usr/src/app-server/node_modules
   # SETUP CLIENT
   client:
     container_name: client
@@ -23,3 +24,4 @@ services:
       - "8000:8000"
     volumes:
       - ./pamw-app:/usr/src/app-client
+      - /usr/src/app-client/node_modules
