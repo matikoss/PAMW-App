@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+# SETUP NODE SERVER
+  server:
+    container_name: server
+    build:
+        context: ./pamw-app-server
+        dockerfile: Dockerfile
+    image: matikoss/server
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./pamw-app-server:/usr/src/app-server
+  # SETUP CLIENT
+  client:
+    container_name: client
+    build:
+        context: ./pamw-app
+        dockerfile: Dockerfile
+    image: matikoss/client
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./pamw-app:/usr/src/app-client

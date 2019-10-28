@@ -1,0 +1,36 @@
+label {
+    font-weight: bold;
+    margin-right: 10px; 
+}
+
+.registration-form {
+    background-color: lightgrey;
+    box-shadow: 1px 1px lightslategray;
+    width: 275px;
+    margin: auto;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+
+}
+
+.register-btn {
+    background-color: orange;
+    color: white;
+    text-align: center;
+    margin: 4px 2px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.form-error {
+    color: red;
+}
+
+.register-success-info {
+    color: green;
+}
+
+.register-invalid-info {
+    color: red;
+}
