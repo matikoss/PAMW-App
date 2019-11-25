@@ -1,18 +1,18 @@
 version: '3'
 
 services:
-# SETUP NODE SERVER
+# SETUP NODE SERVER-LOGIN
   server:
-    container_name: server
+    container_name: server-login
     build:
-        context: ./pamw-app-server
+        context: ./pamw-app-server-login
         dockerfile: Dockerfile
     image: matikoss/server
     ports:
       - "3000:3000"
     volumes:
-      - ./pamw-app-server:/usr/src/app-server
-      - /usr/src/app-server/node_modules
+      - ./pamw-app-server-login:/usr/src/app-server-login
+      - /usr/src/app-server-login/node_modules
   # SETUP CLIENT
   client:
     container_name: client

@@ -4,38 +4,27 @@ label {
     float: left; 
 }
 
-input {
-    float: left;
+input{
+    float: right;
 }
 
-.registration-form {
+.login-form {
     background-color: lightgrey;
     box-shadow: 1px 1px lightslategray;
     width: 275px;
     margin: auto;
+    margin-top: 50px;
     padding: 10px;
     border-radius: 10px;
     text-align: center;
-
 }
 
-.register-btn {
-    background-color: orange;
+.login-btn {
+    background-color: green;
     color: white;
     text-align: center;
     margin: 4px 2px;
     padding: 10px;
     border-radius: 5px;
-}
 
-.form-error {
-    color: red;
-}
-
-.register-success-info {
-    color: green;
-}
-
-.register-invalid-info {
-    color: red;
 }

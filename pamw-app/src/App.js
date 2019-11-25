@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import RegistrationForm from './components/RegistrationForm/RegistrationForm';
+import LoginForm from './components/LoginForm/LoginForm';
 import './App.css';
 
 class App extends Component {
@@ -7,6 +8,7 @@ class App extends Component {
     return (
       <div className="App">
         <RegistrationForm />
+        <LoginForm />
       </div>
     );
   }
