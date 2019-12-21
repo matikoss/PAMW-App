@@ -1,12 +1,12 @@
 import express from 'express';
 import Joi from '@hapi/joi';
-import User from '../models/user';
-import { parseError, sessionizeUser } from "../util/helpers";
-import { SESS_NAME } from "../config";
+const { User } = require('../models/user');
+import { parseError, sessionizeUser } from "../utils/helpers";
+import { SESS_NAME } from "../../config";
 
 const loginRouter = express.Router();
 
-loginRouter.post('', async (requeste, response) => {
+loginRouter.post('', async (request, response) => {
     try {
         const { username, password } = request.body;
 
@@ -15,9 +15,10 @@ loginRouter.post('', async (requeste, response) => {
             const sessionUser = sessionizeUser(user);
 
             request.session.user = sessionUser;
+            console.log(request.session)
             response.send(sessionUser);
         } else {
-            throw new Error('Bledny login');
+            throw new Error('Invalid login');
         }
     } catch (err) {
         response.status(401).send(parseError(err))
@@ -41,7 +42,7 @@ loginRouter.delete('', ({ session }, response) => {
     }
 });
 
-loginRouter.get("", ({ session: { user } }, response) => {
+loginRouter.get('', ({ session: { user } }, response) => {
     response.send({ user });
 });
 

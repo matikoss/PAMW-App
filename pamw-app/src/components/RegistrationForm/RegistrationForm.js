@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import './RegistrationForm.css'
 
 class RegistrationForm extends Component {
@@ -33,7 +35,7 @@ class RegistrationForm extends Component {
         const errors = this.validateForm(username, email, password);
         if (errors.length > 0) {
             this.setState({ errors });
-            this.setState({added: null})
+            this.setState({ added: null })
             return;
         }
 
@@ -49,13 +51,13 @@ class RegistrationForm extends Component {
             .then(response => response.json())
             .then(responseObject => {
                 if (responseObject.wasAdded) {
-                    this.setState({added: true})
+                    this.setState({ added: true })
                     console.log("Nice");
                 } else {
-                    this.setState({added: false})
+                    this.setState({ added: false })
                     console.log("Not nice");
                 }
-                this.setState({errors: []})
+                this.setState({ errors: [] })
             })
     }
 
@@ -100,15 +102,18 @@ class RegistrationForm extends Component {
             <div className="registration-form">
                 <form>
                     <h1>Register</h1>
-                    <label htmlFor="username">Username:</label>
-                    <input type="text" placeholder="Enter username" name="username" onChange={this.onUsernameChange} required />
-                    <br />
-                    <label htmlFor="email">Email:</label>
-                    <input type="email" placeholder="Enter email" name="email" onChange={this.onEmailChange} required />
-                    <br />
-                    <label htmlFor="pass">Password:</label>
-                    <input type="password" placeholder="Enter password" name="pass" onChange={this.onPasswordChange} required />
-                    <br />
+                    <div className="form-group">
+                        <label htmlFor="username">Username:</label>
+                        <input className="form-control" type="text" placeholder="Enter username" name="username" onChange={this.onUsernameChange} required />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="email">Email:</label>
+                        <input className="form-control" type="email" placeholder="Enter email" name="email" onChange={this.onEmailChange} required />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="pass">Password:</label>
+                        <input className="form-control" type="password" placeholder="Enter password" name="pass" onChange={this.onPasswordChange} required />
+                    </div>
                     <button onClick={this.onSubmitRegister} type="submit" className="register-btn">Register</button>
                     {errors.map(error => (
                         <p className="form-error" key={error}>Error: {error}</p>

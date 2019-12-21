@@ -21,20 +21,22 @@ class LoginForm extends Component {
     }
 
     onSubmitLogin = (event) => {
-        
+
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <div className="login-form">
                 <form>
                     <h1>Login</h1>
-                    <label htmlFor="username">Username:</label>
-                    <input type="text" placeholder="Enter username" name="username" onChange={this.onUsernameChange} required />
-                    <br />
-                    <label htmlFor="pass">Password:</label>
-                    <input type="password" placeholder="Enter password" name="pass" onChange={this.onPasswordChange} required />
-                    <br />
+                    <div className="form-group">
+                        <label htmlFor="username">Username:</label>
+                        <input className="form-control" type="text" placeholder="Enter username" name="username" onChange={this.onUsernameChange} required />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="pass">Password:</label>
+                        <input className="form-control" type="password" placeholder="Enter password" name="pass" onChange={this.onPasswordChange} required />
+                    </div>
                     <button onClick={this.onSubmitLogin} type="submit" className="login-btn">Login</button>
                 </form>
             </div>

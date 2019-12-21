@@ -1,7 +1,7 @@
 import express from 'express';
 import Joi from '@hapi/joi';
 const { User } = require('../models/user');
-import { parseError, sessionizeUser } from "../utils/helpers"
+import { parseError, sessionizeUser } from "../utils/helpers";
 
 const registerRouter = express.Router();
 
@@ -22,6 +22,7 @@ registerRouter.post('', async (request, response) => {
         });
         const sessionUser = sessionizeUser(user);
         await user.save();
+        console.log(request.session)
         request.session.user = sessionUser;
         response.json({ wasAdded: true, user: sessionUser});
     }

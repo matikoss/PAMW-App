@@ -18,6 +18,6 @@ const User = mongoose.model('User', new mongoose.Schema({
         minlength: 8,
         maxlength: 1024
     }
-}));
+}, { timestamps: true }));
 
 exports.User = User;
