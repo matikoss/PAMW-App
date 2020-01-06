@@ -7,7 +7,7 @@ import connectStore from 'connect-mongo';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import { User } from './models/user';
-import { registerRouter, loginRouter } from './routes/index'
+import { registerRouter, loginRouter } from './routes/index';
 import { PORT, NODE_ENV, SESS_NAME, SESS_SECRET, SESS_LIFETIME } from '../config'
 
 (async () => {
@@ -20,7 +20,7 @@ import { PORT, NODE_ENV, SESS_NAME, SESS_SECRET, SESS_LIFETIME } from '../config
 
         dotenv.config();
         app.use(bodyParser.json());
-        app.use(cors());
+        app.use(cors({credentials: true, origin: 'http://localhost:8000'}));
         app.use(session({
             name: SESS_NAME,
             secret: SESS_SECRET,
@@ -34,24 +34,14 @@ import { PORT, NODE_ENV, SESS_NAME, SESS_SECRET, SESS_LIFETIME } from '../config
             cookie: {
                 sameSite: true,
                 secure: NODE_ENV === 'production',
-                maxAge: parseInt(SESS_LIFETIME)
+                maxAge: parseInt(SESS_LIFETIME),
+                path: '/'
             }
         }));
 
 
         app.use('/register', registerRouter);
         app.use('/login', loginRouter);
-
-        const userDatabase = {
-            users: [
-                {
-                    id: '1',
-                    username: 'testowyUzytkownik',
-                    email: 'testowy@mail.com',
-                    password: 'testowe123'
-                }
-            ]
-        }
 
         app.get('/', async (request, response) => {
             User.find({}, function (err, users) {
@@ -60,10 +50,8 @@ import { PORT, NODE_ENV, SESS_NAME, SESS_SECRET, SESS_LIFETIME } from '../config
                 users.forEach(function (user) {
                     userMap[user._id] = user;
                 });
-
                 response.send(userMap);
             });
-            // response.json(userDatabase.users);
         })
 
         // app.post('/register', async (request, response) => {
@@ -117,17 +105,17 @@ import { PORT, NODE_ENV, SESS_NAME, SESS_SECRET, SESS_LIFETIME } from '../config
             return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '5m' })
         }
 
-        app.get('/tokentest', authenticateToken, (request, response) => {
-            response.json({ access: true })
-        })
+        // app.get('/tokentest', authenticateToken, (request, response) => {
+        //     response.json({ access: true })
+        // })
 
-        app.post('/login', (request, response) => {
-            const { username, password } = request.body;
-            const user = { name: username }
+        // app.post('/login', (request, response) => {
+        //     const { username, password } = request.body;
+        //     const user = { name: username }
 
-            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
-            response.json({ accessToken: accessToken });
-        })
+        //     const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
+        //     response.json({ accessToken: accessToken });
+        // })
 
         app.listen(3000, () => {
             console.log("pamw-app-server-login is running on port 3000");

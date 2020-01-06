@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { signup } from "../../actions/session"
+import { setCookie } from "../../util/cookie"
 import './RegistrationForm.css'
 
 class RegistrationForm extends Component {
@@ -42,23 +44,36 @@ class RegistrationForm extends Component {
         fetch('http://localhost:3000/register', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
+            credentials: "include",
             body: JSON.stringify({
                 username: this.state.username,
                 email: this.state.email,
                 password: this.state.password
             })
         })
-            .then(response => response.json())
-            .then(responseObject => {
-                if (responseObject.wasAdded) {
-                    this.setState({ added: true })
-                    console.log("Nice");
-                } else {
-                    this.setState({ added: false })
-                    console.log("Not nice");
-                }
-                this.setState({ errors: [] })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(response.status);
+                } else return response.json();
             })
+            .then((responseObject) => {
+                this.setState({ added: true });
+                console.log(responseObject);
+                console.log(typeof(responseObject.username));
+                const userId = responseObject.userId;
+                const userName = responseObject.username;
+                const accessToken = responseObject.accessToken;
+                const refreshToken = responseObject.refreshToken;
+                console.log(userName)
+                this.props.setCurrentUser(userId, userName);
+                this.props.setTokens(accessToken, refreshToken);
+                this.props.onRouteChange('files');
+            })
+            .catch((error) => {
+                console.log('error: ' + error);
+                this.setState({ added: false });
+            });
+        this.setState({ errors: [] })
     }
 
     validateForm = (username, email, password) => {
@@ -89,7 +104,7 @@ class RegistrationForm extends Component {
 
     render() {
         const { errors } = this.state;
-        let added = this.state.added
+        let added = this.state.added;
         let registerInfo = null;
         if (added === true) {
             registerInfo = <p className="register-success-info">Successfully registered!</p>;
@@ -126,4 +141,4 @@ class RegistrationForm extends Component {
 
 }
 
-export default RegistrationForm;
+export default RegistrationForm
