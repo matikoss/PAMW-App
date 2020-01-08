@@ -32,5 +32,8 @@ export default StyleSheet.create({
     uploadOpacity: {
         backgroundColor:'#DDDDDD',
         padding: 20
+    },
+    mediumText: {
+        fontSize: 25
     }
 })

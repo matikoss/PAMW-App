@@ -4,7 +4,7 @@ import styles from './styles/styles';
 import * as SecureStore from 'expo-secure-store';
 
 const initialState = {
-    username: ''
+    username: null,
 }
 
 class Home extends Component {
@@ -13,21 +13,25 @@ class Home extends Component {
         this.state = initialState;
     }
 
-    componentDidMount() {
-        this.loadUsername();
-        console.log("did mount")
+    componentDidMount () {
+        this.loadUsername()
     }
 
-    loadUsername = async() => {
-        const name = await SecureStore.getItemAsync("userName");
-        this.setState({username: name})
+    loadUsername = async () => {
+        SecureStore.getItemAsync("userName")
+            .then((name) => {
+                this.setState({ username: name })
+            })
     }
 
     render() {
+        let homeUserName = '';
+        if (this.state.username !== null) {
+            homeUserName = this.state.username;
+        }
         return (
             <View style={styles.mainView}>
-                <Text style={styles.bigText}>Witaj</Text>
-                <Text style={styles.bigText}>{this.state.username}</Text>
+                <Text style={styles.bigText}>Welcome</Text>
             </View>
         )
     }

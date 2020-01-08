@@ -98,6 +98,7 @@ class Files extends Component {
         })
         .then((response) => {
             const blob = response.blob();
+            console.log(blob);
             download(blob, fileName);
         })
     }
