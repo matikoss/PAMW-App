@@ -28,5 +28,9 @@ export default StyleSheet.create({
     },
     errorText: {
         color: 'red'
+    },
+    uploadOpacity: {
+        backgroundColor:'#DDDDDD',
+        padding: 20
     }
 })

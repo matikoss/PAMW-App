@@ -9,10 +9,11 @@ import mongoose from 'mongoose';
 import { User } from './models/user';
 import { registerRouter, loginRouter } from './routes/index';
 import { PORT, NODE_ENV, SESS_NAME, SESS_SECRET, SESS_LIFETIME } from '../config'
+import {DB_ADDRESS} from '../addressConfig'
 
 (async () => {
     try {
-        const databasePath = 'mongodb://localhost:27017'
+        const databasePath = DB_ADDRESS;
         await mongoose.connect(databasePath);
         console.log('Connected to MongoDB!');
         const app = express();
