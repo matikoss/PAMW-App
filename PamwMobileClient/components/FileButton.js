@@ -15,7 +15,7 @@ class FileButton extends Component {
         return (
             <Button
                 title={this.props.fileName}
-                onPress={}
+                onPress={this.handleDownload}
             />
         )
     }

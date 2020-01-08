@@ -3,6 +3,7 @@ import { View, TextInput, Text, Button, TouchableOpacity } from 'react-native';
 import styles from './styles/styles';
 import * as DocumentPicker from 'expo-document-picker';
 import * as SecureStore from 'expo-secure-store';
+import FileButton from './FileButton';
 
 class Files extends Component {
     constructor(props) {
@@ -100,6 +101,9 @@ class Files extends Component {
                 </TouchableOpacity>
                 <Button title={'Upload file'} onPress={this.handleFileUpload} />
                 <Text style={styles.mediumText}>Your files:</Text>
+                {this.state.files.map(file => (
+                        <FileButton key={file.name}  fileAddress={file.file} fileName={file.name} />
+                    ))}
             </View>
         )
     }
