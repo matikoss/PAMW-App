@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TextInput, Text, Button, TouchableOpacity } from 'react-native';
+import { View, TextInput, Text, Button, TouchableOpacity, FlatList } from 'react-native';
 import styles from './styles/styles';
 import * as DocumentPicker from 'expo-document-picker';
 import * as SecureStore from 'expo-secure-store';
@@ -20,6 +20,7 @@ class Files extends Component {
     componentDidMount = async () => {
         await this.setStorageData();
         await this.loadUserFiles();
+        console.log(this.state.files)
     }
 
     setStorageData = async () => {
@@ -72,9 +73,10 @@ class Files extends Component {
                         tmpFiles.concat(data);
                         this.setState({ files: tmpFiles });
                     }
+                    this.setState({fileToUpload: null, fileToUploadName: ''})
                 })
         } catch (error) {
-
+            console.log(error)
         }
     }
 
@@ -90,20 +92,30 @@ class Files extends Component {
     }
 
     render() {
+        let FilesList = <Text>No files uploaded.</Text>
         let uploadInfo = 'Choose file to upload.'
         if (this.state.fileToUpload !== null) {
             uploadInfo = this.state.fileToUploadName
         }
+        if (this.state.files.length > 0) {
+            FilesList = <FlatList
+                data={this.state.files}
+                renderItem={({ item }) => (<FileButton fileAddress={item.file} fileName={item.name} />)}
+                keyExtractor={item => item.name}
+                extraData={this.state}
+            />
+        }
         return (
             <View style={styles.mainView}>
+                {/* {this.state.files.map(file => (
+                        <FileButton key={file.name}  fileAddress={file.file} fileName={file.name} />
+                    ))} */}
+                <Text style={styles.mediumText}>Your files:</Text>
+                {FilesList}
                 <TouchableOpacity onPress={this.handelSelectFile} style={styles.uploadOpacity}>
                     <Text>{uploadInfo}</Text>
                 </TouchableOpacity>
                 <Button title={'Upload file'} onPress={this.handleFileUpload} />
-                <Text style={styles.mediumText}>Your files:</Text>
-                {this.state.files.map(file => (
-                        <FileButton key={file.name}  fileAddress={file.file} fileName={file.name} />
-                    ))}
             </View>
         )
     }

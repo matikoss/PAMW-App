@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Welcome, Login, Register, Authentication, Home, UserMenu, Files } from './components'
+import { Welcome, Login, Register, Authentication, Home, UserMenu, Files, Bibliographics } from './components'
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createSwitchNavigator, createAppContainer } from 'react-navigation';
@@ -8,6 +8,7 @@ import { createSwitchNavigator, createAppContainer } from 'react-navigation';
 const UserBottomTab = createBottomTabNavigator({
   Home: Home,
   Files: Files,
+  Biblio: Bibliographics,
   UserMenu: UserMenu
 })
 const NewUserStack = createStackNavigator({

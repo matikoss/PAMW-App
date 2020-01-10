@@ -5,5 +5,6 @@ import UserMenu from './UserMenu';
 import Files from './Files';
 import Home from './Home';
 import Authentication from './Authentication';
+import Bibliographics from './Bibliographics';
 
-export { Welcome, Login, Register, UserMenu, Files, Home, Authentication};
+export { Welcome, Login, Register, UserMenu, Files, Home, Authentication, Bibliographics };

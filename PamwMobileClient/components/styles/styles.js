@@ -35,5 +35,10 @@ export default StyleSheet.create({
     },
     mediumText: {
         fontSize: 25
+    }, 
+    fileButton: {
+        marginTop: 5,
+        marginBottom: 5
     }
+
 })
