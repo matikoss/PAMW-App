@@ -36,9 +36,16 @@ export default StyleSheet.create({
     mediumText: {
         fontSize: 25
     }, 
-    fileButton: {
+    fileContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         marginTop: 5,
-        marginBottom: 5
+        marginBottom: 5,
+    },
+    fileDeleteButton: {
+        backgroundColor: 'red'
     }
+
 
 })

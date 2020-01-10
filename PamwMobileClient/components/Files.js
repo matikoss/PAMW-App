@@ -73,11 +73,23 @@ class Files extends Component {
                         tmpFiles.concat(data);
                         this.setState({ files: tmpFiles });
                     }
-                    this.setState({fileToUpload: null, fileToUploadName: ''})
+                    this.setState({ fileToUpload: null, fileToUploadName: '' })
                 })
         } catch (error) {
             console.log(error)
         }
+    }
+
+    handelDelete = async (address, fileName) => {
+        fetch(address, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${this.state.accessToken}`
+            }
+        })
+            .then((response) => {
+                console.log(response);
+            })
     }
 
     handelSelectFile = async () => {
@@ -100,7 +112,7 @@ class Files extends Component {
         if (this.state.files.length > 0) {
             FilesList = <FlatList
                 data={this.state.files}
-                renderItem={({ item }) => (<FileButton fileAddress={item.file} fileName={item.name} />)}
+                renderItem={({ item }) => (<FileButton fileAddress={item.file} fileName={item.name} accessToken={this.state.accessToken} />)}
                 keyExtractor={item => item.name}
                 extraData={this.state}
             />
@@ -115,7 +127,7 @@ class Files extends Component {
                 <TouchableOpacity onPress={this.handelSelectFile} style={styles.uploadOpacity}>
                     <Text>{uploadInfo}</Text>
                 </TouchableOpacity>
-                <Button title={'Upload file'} onPress={this.handleFileUpload} />
+                <Button title={'Upload file'} onPress={this.handleFileUpload} handleDelete={this.handelDelete} />
             </View>
         )
     }

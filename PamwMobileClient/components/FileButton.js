@@ -11,12 +11,18 @@ class FileButton extends Component {
 
     }
 
+
     render() {
         return (
-            <View style={styles.fileButton}>
+            <View style={styles.fileContainer}>
                 <Button
                     title={this.props.fileName}
                     onPress={this.handleDownload}
+                />
+                <Button
+                    title={"Del"}
+                    onPress={this.handleDelete}
+                    color="red"
                 />
             </View>
         )

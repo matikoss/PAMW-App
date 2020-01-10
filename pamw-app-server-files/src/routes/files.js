@@ -1,5 +1,5 @@
 import express from 'express';
-import  verifyToken  from '../utils/verifyToken'
+import verifyToken from '../utils/verifyToken'
 import fs from 'fs';
 import { IncomingForm } from 'formidable';
 
@@ -23,7 +23,7 @@ filesRouter.post('/:userId', verifyToken, (req, res) => { // post a new file to 
 
     const uploadDir = `${__dirname}/uploads/${req.user._id}`;
     if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
-    
+
     form.parse(req);
 
     form.on('fileBegin', (field, file) => {
@@ -43,5 +43,17 @@ filesRouter.get('/:userId/:fileName', verifyToken, (req, res) => { // get a spec
     if (!fs.existsSync(filePath)) return res.status(400).send('No file or user in a storage.');
     res.download(filePath);
 });
+filesRouter.delete('/:userId/:fileName', verifyToken, (req, res) => { //delete file from user dir
+    const filePath = `${__dirname}/uploads/${req.user._id}/${req.params.fileName}`;
+    if (!fs.existsSync(filePath)) return res.status(400).send('No file or user in a storage.');
+    try {
+        fs.unlink(filePath, (err) => {
+            if (err) throw err
+            res.send(`File from ${filePath} deleted.`)
+        });
+    } catch (err) {
+        console.log(err);
+    }
+})
 
 export default filesRouter;
