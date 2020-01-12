@@ -23,7 +23,8 @@
     "react-native-vector-icons": "^6.6.0",
     "react-navigation": "^4.0.10",
     "react-navigation-stack": "^2.0.12",
-    "react-navigation-tabs": "^2.7.0"
+    "react-navigation-tabs": "^2.7.0",
+    "rn-fetch-blob": "^0.12.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",

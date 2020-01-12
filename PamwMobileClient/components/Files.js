@@ -51,7 +51,7 @@ class Files extends Component {
 
     handleFileUpload = async () => {
         if (this.state.fileToUpload === null) return;
-        this.setState({isUploading: true});
+        this.setState({ isUploading: true });
         const fileToUpload = this.state.fileToUpload;
         const formData = new FormData();
         formData.append('file', {
@@ -84,7 +84,7 @@ class Files extends Component {
         } catch (error) {
             console.log(error)
         }
-        this.setState({isUploading: false});
+        this.setState({ isUploading: false });
     }
 
     handleDelete = async (address, fileName) => {
@@ -127,7 +127,7 @@ class Files extends Component {
         if (this.state.files.length > 0) {
             FilesList = <FlatList
                 data={this.state.files}
-                renderItem={({ item }) => (<FileButton fileAddress={item.file} fileName={item.name} handleDelete={this.handleDelete} />)}
+                renderItem={({ item }) => (<FileButton fileAddress={item.file} fileName={item.name} accessToken={this.state.accessToken} handleDelete={this.handleDelete} />)}
                 keyExtractor={item => item.name}
                 extraData={this.state}
             />
