@@ -30,12 +30,12 @@ export default StyleSheet.create({
         color: 'red'
     },
     uploadOpacity: {
-        backgroundColor:'#DDDDDD',
+        backgroundColor: '#DDDDDD',
         padding: 20
     },
     mediumText: {
         fontSize: 25
-    }, 
+    },
     fileContainer: {
         flex: 1,
         flexDirection: 'row',
@@ -45,7 +45,38 @@ export default StyleSheet.create({
     },
     fileDeleteButton: {
         backgroundColor: 'red'
-    }
+    },
+    biblioInput: {
+        borderColor: 'black',
+        borderWidth: 1,
+        backgroundColor: 'rgb(217, 207, 205)',
+        width: 350,
+        marginBottom: 10,
+        color: 'black'
 
+    },
+    biblioButtonContainer: {
+        marginBottom: 5,
+        marginTop: 5,
+        width: 350
+
+    },
+    attachViewContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 5,
+        marginBottom: 5
+    },
+    scrollViewContainerStyle: {
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    scrollViewStyle: {
+        backgroundColor: 'rgb(1, 222, 252)'
+    },
+    loginRegisterButton: {
+        width: 350
+    }
 
 })

@@ -14,7 +14,7 @@ class Home extends Component {
     }
 
     componentDidMount () {
-        this.loadUsername()
+        this.loadUsername();
     }
 
     loadUsername = async () => {

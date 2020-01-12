@@ -79,8 +79,8 @@ class Files extends Component {
                     console.log(data);
                     if (this.state.files.filter(file => file.name === data.name).length === 0) {
                         let tmpFiles = this.state.files;
-                        tmpFiles.concat(data);
-                        this.setState({ files: tmpFiles });
+                        const newFiles = tmpFiles.concat(data);
+                        this.setState({ files: newFiles });
                     }
                 })
         } catch (error) {
@@ -90,17 +90,19 @@ class Files extends Component {
     }
 
     handleDownload = async (address, fileName) => {
-        fetch(address, {
+        console.log(address);
+        fetch(`http://localhost:3001${address}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${this.props.accessToken}`
             }
         })
-        .then((response) => {
-            const blob = response.blob();
-            console.log(blob);
-            download(blob, fileName);
-        })
+            .then((response) => {
+                console.log(response);
+                const blob = response.blob();
+                console.log(blob);
+                download(blob, fileName);
+            })
     }
 
     render() {

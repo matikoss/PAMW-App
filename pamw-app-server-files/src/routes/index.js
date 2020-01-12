@@ -1,3 +1,4 @@
 import filesRouter from './files';
+import biblioRouter from './biblio';
 
-export { filesRouter }
+export { filesRouter, biblioRouter }

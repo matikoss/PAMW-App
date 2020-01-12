@@ -9,9 +9,13 @@ class Welcome extends Component {
             <View style={styles.mainView}>
                 <Text style={styles.bigText}>Welcome!</Text>
                 <View style={styles.buttonView}>
-                    <Button title="Login" onPress={() => navigate('Login')}/>
+                    <View style={styles.loginRegisterButton}>
+                        <Button title="Login" onPress={() => navigate('Login')} />
+                    </View>
                     <Text>No account yet?</Text>
-                    <Button title="Register" onPress={() => navigate('Register')}/>
+                    <View style={styles.loginRegisterButton}>
+                        <Button title="Register" onPress={() => navigate('Register')} />
+                    </View>
                 </View>
             </View>
         )

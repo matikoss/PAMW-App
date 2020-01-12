@@ -2,20 +2,19 @@ import React, { Component } from 'react';
 import { View, TextInput, Text, Button, TouchableOpacity } from 'react-native';
 import styles from './styles/styles';
 
-class FileButton extends Component {
+class FileAttachButton extends Component {
     constructor(props) {
         super(props);
-        this.handleDelete = this.handleDelete.bind(this)
+        this.handleAttacheDelete = this.handleAttacheDelete.bind(this);
     }
 
     handleDownload = async () => {
 
     }
 
-    handleDelete = async () => {
-        this.props.handleDelete(this.props.fileAddress, this.props.fileName)
+    handleAttacheDelete = async () => {
+        this.props.handleAttacheDelete(this.props.fileName)
     }
-
 
     render() {
         return (
@@ -26,13 +25,12 @@ class FileButton extends Component {
                 />
                 <Button
                     title={"Del"}
-                    onPress={this.handleDelete}
+                    onPress={this.handleAttacheDelete}
                     color="red"
                 />
             </View>
         )
     }
-
 }
 
-export default FileButton;
+export default FileAttachButton;

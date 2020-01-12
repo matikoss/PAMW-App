@@ -8,9 +8,10 @@ const registerRouter = express.Router();
 
 registerRouter.post('', async (request, response) => {
     const { username, email, password } = request.body;
-    console.log("Nazwa uz" + username)
+    console.log("Nazwa uz " + username)
     let usernameDuplicate = await User.findOne({ username: username });
     let emailDuplicate = await User.findOne({ email: email });
+    console.log(usernameDuplicate);
     try {
         if (usernameDuplicate || emailDuplicate) {
             throw Error("User is already in the database.")

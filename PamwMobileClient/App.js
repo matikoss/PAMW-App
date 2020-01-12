@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Welcome, Login, Register, Authentication, Home, UserMenu, Files, Bibliographics } from './components'
+import {
+  Welcome,
+  Login,
+  Register,
+  Authentication,
+  Home,
+  UserMenu,
+  Files,
+  Bibliographics,
+  NewBiblioForm,
+  BibliographicDetails
+} from './components'
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createSwitchNavigator, createAppContainer } from 'react-navigation';
@@ -19,10 +29,20 @@ const NewUserStack = createStackNavigator({
   { headerMode: 'none' }
 )
 
+const BiblioStack = createStackNavigator({
+  Biblio: Bibliographics,
+  BiblioForm: NewBiblioForm,
+  BiblioDetails: BibliographicDetails,
+  User: UserBottomTab
+},
+  { headerMode: 'none' }
+)
+
 const MainStack = createSwitchNavigator(
   {
     User: UserBottomTab,
     NewUser: NewUserStack,
+    BStack: BiblioStack,
     AuthLoad: Authentication
   },
   {

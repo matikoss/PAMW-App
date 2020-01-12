@@ -8,11 +8,13 @@ import FileButton from './FileButton';
 class Files extends Component {
     constructor(props) {
         super(props);
+        this.handleDelete = this.handleDelete.bind(this);
         this.state = {
             fileToUpload: null,
             fileToUploadName: '',
             accessToken: null,
             userId: null,
+            isUploading: false,
             files: []
         }
     }
@@ -49,6 +51,7 @@ class Files extends Component {
 
     handleFileUpload = async () => {
         if (this.state.fileToUpload === null) return;
+        this.setState({isUploading: true});
         const fileToUpload = this.state.fileToUpload;
         const formData = new FormData();
         formData.append('file', {
@@ -70,29 +73,41 @@ class Files extends Component {
                 .then((data) => {
                     if (this.state.files.filter(file => file.name === data.name).length === 0) {
                         let tmpFiles = this.state.files;
-                        tmpFiles.concat(data);
-                        this.setState({ files: tmpFiles });
+                        const newFiles = tmpFiles.concat(data);
+                        console.log(tmpFiles)
+                        console.log(data)
+                        this.setState({ files: newFiles });
+                        console.log(this.state.files)
                     }
                     this.setState({ fileToUpload: null, fileToUploadName: '' })
                 })
         } catch (error) {
             console.log(error)
         }
+        this.setState({isUploading: false});
     }
 
-    handelDelete = async (address, fileName) => {
-        fetch(address, {
+    handleDelete = async (address, fileName) => {
+        console.log(address)
+        fetch(`http://10.0.2.2:3001${address}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${this.state.accessToken}`
             }
         })
             .then((response) => {
-                console.log(response);
+                if (!response.ok) {
+                    return
+                } else {
+                    console.log(response);
+                    let tmpFiles = this.state.files;
+                    const newFiles = tmpFiles.filter((file) => file.name !== fileName)
+                    this.setState({ files: newFiles })
+                }
             })
     }
 
-    handelSelectFile = async () => {
+    handleSelectFile = async () => {
         try {
             const file = await DocumentPicker.getDocumentAsync({ type: 'application/pdf' })
             if (file.type === 'success') {
@@ -112,7 +127,7 @@ class Files extends Component {
         if (this.state.files.length > 0) {
             FilesList = <FlatList
                 data={this.state.files}
-                renderItem={({ item }) => (<FileButton fileAddress={item.file} fileName={item.name} accessToken={this.state.accessToken} />)}
+                renderItem={({ item }) => (<FileButton fileAddress={item.file} fileName={item.name} handleDelete={this.handleDelete} />)}
                 keyExtractor={item => item.name}
                 extraData={this.state}
             />
@@ -124,10 +139,10 @@ class Files extends Component {
                     ))} */}
                 <Text style={styles.mediumText}>Your files:</Text>
                 {FilesList}
-                <TouchableOpacity onPress={this.handelSelectFile} style={styles.uploadOpacity}>
+                <TouchableOpacity onPress={this.handleSelectFile} style={styles.uploadOpacity}>
                     <Text>{uploadInfo}</Text>
                 </TouchableOpacity>
-                <Button title={'Upload file'} onPress={this.handleFileUpload} handleDelete={this.handelDelete} />
+                <Button title={'Upload file'} onPress={this.handleFileUpload} />
             </View>
         )
     }

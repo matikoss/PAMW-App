@@ -9,7 +9,7 @@ import mongoose from 'mongoose';
 import { User } from './models/user';
 import { registerRouter, loginRouter } from './routes/index';
 import { PORT, NODE_ENV, SESS_NAME, SESS_SECRET, SESS_LIFETIME } from '../config'
-import {DB_ADDRESS} from '../addressConfig'
+import {DB_ADDRESS} from '../../addressConfig'
 
 (async () => {
     try {
