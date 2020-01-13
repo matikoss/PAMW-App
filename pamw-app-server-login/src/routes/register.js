@@ -21,7 +21,7 @@ registerRouter.post('', async (request, response) => {
                 email: email,
                 password: password
             });
-            const accessToken = jwt.sign({ _id: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: '5m' });
+            const accessToken = jwt.sign({ _id: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: '10m' });
             const refreshToken = jwt.sign({ _id: user.id }, REFRESH_TOKEN_SECRET);
             const sessionUser = sessionizeUser(user, accessToken, refreshToken);
             await user.save();

@@ -12,7 +12,7 @@ loginRouter.post('', async (request, response) => {
 
         const user = await User.findOne({ username });
         if (user && user.password === password) {
-            const accessToken = jwt.sign({ _id: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: '5m' });
+            const accessToken = jwt.sign({ _id: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: '10m' });
             const refreshToken = jwt.sign({ _id: user.id }, REFRESH_TOKEN_SECRET);
             const sessionUser = sessionizeUser(user, accessToken, refreshToken);
             request.session.user = sessionUser;

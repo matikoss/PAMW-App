@@ -267,7 +267,7 @@ class BibliographicDetails extends Component {
                     <Text style={styles.mediumText}>Attached files:</Text>
                     {attachedFiles}
                     {this.state.attachedFiles.map(file => (
-                        <FileAttachButton key={file} fileName={file} handleAttacheDelete={this.handleAttacheDelete} />
+                        <FileAttachButton key={file} fileName={file} userId={this.state.userId} accessToken={this.state.accessToken} handleAttacheDelete={this.handleAttacheDelete} />
                     ))}
                     {attachForm}
                 </ScrollView>
