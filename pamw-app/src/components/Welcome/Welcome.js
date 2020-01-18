@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import './Welcome.css'
 
 class Welcome extends React.Component {
     constructor(props) {
@@ -41,10 +42,10 @@ class Welcome extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="welcome-div">
                 <h1>Welcome!</h1>
-                <button onClick={this.onRegisterClick} type="button" className="btn btn-primary">Register</button>
-                <button onClick={this.onLoginClick} type="button" className="btn btn-primary">Login</button>
+                <button  onClick={this.onRegisterClick} type="button" className="btn btn-warning welcome-button">Register</button>
+                <button  onClick={this.onLoginClick} type="button" className="btn btn-success welcome-button">Login</button>
             </div>
         )
     }

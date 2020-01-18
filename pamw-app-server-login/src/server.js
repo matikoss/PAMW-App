@@ -4,24 +4,25 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import session from 'express-session';
 import connectStore from 'connect-mongo';
-import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
+import path from 'path';
 import { User } from './models/user';
 import { registerRouter, loginRouter } from './routes/index';
 import { PORT, NODE_ENV, SESS_NAME, SESS_SECRET, SESS_LIFETIME } from '../config'
-import {DB_ADDRESS} from '../../addressConfig'
+import { DB_ADDRESS } from '../../addressConfig'
 
 (async () => {
     try {
-        const databasePath = DB_ADDRESS;
-        await mongoose.connect(databasePath);
-        console.log('Connected to MongoDB!');
         const app = express();
+        const PORT = 3000;
+        const databasePath = DB_ADDRESS;
+        await mongoose.connect(process.env.MONGODB_URI || databasePath);
+        console.log('Connected to MongoDB!');
         const MongoStore = connectStore(session);
 
         dotenv.config();
         app.use(bodyParser.json());
-        app.use(cors({credentials: true, origin: 'http://localhost:8000'}));
+        app.use(cors({ credentials: true, origin: 'http://localhost:8000' }));
         app.use(session({
             name: SESS_NAME,
             secret: SESS_SECRET,
@@ -55,68 +56,13 @@ import {DB_ADDRESS} from '../../addressConfig'
             });
         })
 
-        // app.post('/register', async (request, response) => {
-        //     const { username, email, password } = request.body;
-        //     // let found = false;
-        //     let usernameDuplicate = await User.findOne({ username: username });
-        //     let emailDuplicate = await User.findOne({ email: email });
-        //     if (usernameDuplicate || emailDuplicate) {
-        //         return response.json({ wasAdded: false });
-        //     } else {
-        //         user = new User({
-        //             username: username,
-        //             email: email,
-        //             password: password
-        //         });
-        //         await user.save();
-        //         response.json({ wasAdded: true });
-        //     }
+        if (process.env.NODE_ENV === 'production') {
+            app.use(express.static('client/build'));
 
-
-        //     // userDatabase.users.forEach(user => {
-        //     //     if (user.username === username || user.email === email) {
-        //     //         found = true;
-        //     //         response.json({wasAdded: false});
-        //     //     }
-        //     // })
-        //     // if (!found) {
-        //     //     userDatabase.users.push({
-        //     //         id: userDatabase.users.length + 1,
-        //     //         username: username,
-        //     //         email: email,
-        //     //         password: password
-        //     //     })
-        //     //     response.json({wasAdded: true});
-        //     // }
-        // })
-
-        const authenticateToken = (request, response, next) => {
-            const authHeader = request.headers['authorization'];
-            const token = authHeader && authHeader.split(' ')[1];
-            if (token == null) return response.sendStatus(401);
-
-            jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-                if (err) return response.sendStatus(403);
-                request.user = user
-                next()
-            });
+            app.get('*', (req, res) => {
+                res.sendFile(path.join(__dirname, '..', 'pamw-app', 'build', 'index.html'));
+            })
         }
-
-        const generateAccessToken = (user) => {
-            return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '5m' })
-        }
-
-        // app.get('/tokentest', authenticateToken, (request, response) => {
-        //     response.json({ access: true })
-        // })
-
-        // app.post('/login', (request, response) => {
-        //     const { username, password } = request.body;
-        //     const user = { name: username }
-
-        //     const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
-        //     response.json({ accessToken: accessToken });
-        // })
 
         app.listen(3000, () => {
             console.log("pamw-app-server-login is running on port 3000");

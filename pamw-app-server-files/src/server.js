@@ -10,7 +10,7 @@ import { DB_ADDRESS } from '../../addressConfig';
 (async () => {
     try {
         const databasePath = DB_ADDRESS;
-        await mongoose.connect(databasePath);
+        await mongoose.connect(process.env.MONGODB_URI || databasePath);
         console.log('Connected to MongoDB!');
         const app = express();
         app.use(bodyParser.json());
