@@ -1,23 +1,25 @@
 import express from 'express';
-import Joi from '@hapi/joi';
-import User from '../models/user';
-import { parseError, sessionizeUser } from "../util/helpers";
-import { SESS_NAME } from "../config";
+import jwt from 'jsonwebtoken';
+const { User } = require('../models/user');
+import { parseError, sessionizeUser } from "../utils/helpers";
+import { SESS_NAME,  ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET} from "../../config";
 
 const loginRouter = express.Router();
 
-loginRouter.post('', async (requeste, response) => {
+loginRouter.post('', async (request, response) => {
     try {
         const { username, password } = request.body;
 
         const user = await User.findOne({ username });
         if (user && user.password === password) {
-            const sessionUser = sessionizeUser(user);
-
+            const accessToken = jwt.sign({ _id: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: '5m' });
+            const refreshToken = jwt.sign({ _id: user.id }, REFRESH_TOKEN_SECRET);
+            const sessionUser = sessionizeUser(user, accessToken, refreshToken);
             request.session.user = sessionUser;
+            console.log(request.session)
             response.send(sessionUser);
         } else {
-            throw new Error('Bledny login');
+            throw new Error('Invalid login');
         }
     } catch (err) {
         response.status(401).send(parseError(err))
@@ -41,7 +43,7 @@ loginRouter.delete('', ({ session }, response) => {
     }
 });
 
-loginRouter.get("", ({ session: { user } }, response) => {
+loginRouter.get('', ({ session: { user } }, response) => {
     response.send({ user });
 });
 
