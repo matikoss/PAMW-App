@@ -1,14 +1,12 @@
-.welcome-div{
+.login-button{
+    width: 300px;
+    margin-left: 10px;
+    font-size: x-large;
+}
+.auth-container{
     margin: auto;
     margin-top: 50px;
     padding: 10px;
     border-radius: 10px;
     text-align: center;
-}
-
-.welcome-button{
-    width: 200px;
-    margin-left: 10px;
-    font-size: x-large;
-    
 }

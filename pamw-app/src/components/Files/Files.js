@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
+import { Auth0Context } from '../../contexts/auth0-context'
 import download from 'downloadjs';
 import './Files.css'
 
@@ -7,6 +8,21 @@ const FileButton = ({ handleDownload, fileAddress, fileName }) => (
         <button onClick={() => handleDownload(fileAddress, fileName)} className="btn btn-primary">{fileName}</button>
     </div>
 );
+
+const LogoutButton = (props) => {
+    const { logout, isAuthenticated } = useContext(Auth0Context);
+    const logoutClick = () => {
+        props.handleLogout();
+        if (isAuthenticated) {
+            logout({ returnTo: window.location.origin });
+        }
+    }
+    return (
+        <div>
+            <button onClick={logoutClick} className="btn btn-outline-success my-2 my-sm-0">Log out</button>
+        </div>
+    )
+}
 
 class Files extends Component {
     constructor(props) {
@@ -40,7 +56,7 @@ class Files extends Component {
     }
 
     onLogoutClick = (event) => {
-        event.preventDefault();
+        //event.preventDefault();
         fetch("http://localhost:3000/login", {
             method: 'delete',
             credentials: "include"
@@ -110,7 +126,8 @@ class Files extends Component {
             <div>
                 <nav className="navbar navbar-light bg-light">
                     <span className="navbar-brand mb-0 h1">Hello {this.props.currentUser} </span>
-                    <button onClick={this.onLogoutClick} className="btn btn-outline-success my-2 my-sm-0">Log out</button>
+                    {/* <button onClick={this.onLogoutClick} className="btn btn-outline-success my-2 my-sm-0">Log out</button> */}
+                    <LogoutButton handleLogout={this.onLogoutClick} />
                 </nav>
                 <div className="d-flex p-2">
                     <div className="custom-file">

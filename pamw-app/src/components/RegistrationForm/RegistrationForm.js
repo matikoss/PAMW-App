@@ -1,8 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { signup } from "../../actions/session"
-import { setCookie } from "../../util/cookie"
 import './RegistrationForm.css'
 
 class RegistrationForm extends Component {

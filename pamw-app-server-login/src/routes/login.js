@@ -1,8 +1,8 @@
-import express from 'express';
+import express, { response } from 'express';
 import jwt from 'jsonwebtoken';
 const { User } = require('../models/user');
 import { parseError, sessionizeUser } from "../utils/helpers";
-import { SESS_NAME,  ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET} from "../../config";
+import { SESS_NAME, ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from "../../config";
 
 const loginRouter = express.Router();
 
@@ -25,6 +25,39 @@ loginRouter.post('', async (request, response) => {
         response.status(401).send(parseError(err))
     }
 });
+
+loginRouter.post('/auth0', async (request, response) => {
+    console.log("HALO")
+    try {
+        const { nickname, nonce, email, aud, iss } = request.body;
+        console.log(aud);
+        console.log(iss);
+        const validAud = process.env.REACT_APP_AUTH0_CLIENT_ID;
+        const validIss = `https://${process.env.REACT_APP_AUTH0_DOMAIN}/`;
+        console.log(validAud);
+        console.log(validIss);
+        if (validAud === aud && validIss === iss) {
+            console.log('HALO2');
+            const accessToken = jwt.sign({ _id: nonce }, ACCESS_TOKEN_SECRET, { expiresIn: '5m' });
+            const refreshToken = jwt.sign({ _id: nonce }, REFRESH_TOKEN_SECRET);
+            console.log(accessToken);
+            const user = {
+                id: nonce,
+                username: nickname
+            }
+            console.log(user)
+            const sessionUser = sessionizeUser(user, accessToken, refreshToken);
+            request.session.user = sessionUser;
+            console.log(sessionUser);
+            response.send(sessionUser);
+        } else {
+            throw new Error('Wrong credentials.')
+        }
+
+    } catch (err) {
+        response.status(401).send(parseError(err))
+    }
+})
 
 loginRouter.delete('', ({ session }, response) => {
     try {
