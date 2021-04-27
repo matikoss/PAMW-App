@@ -23,6 +23,6 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.12",
     "nodemon": "^1.19.4",
-    "redis": "^2.8.0"
+    "redis": "^3.1.1"
   }
 }
